@@ -1,0 +1,20 @@
+USA0:$1,$2,$5,$10,$20,$50,$100;
+BRA0:1 Real,2 Reals,5 Reals,10 Reals,,50 Reals,100 Reals;
+RUS0: , ,10 Rubles,50 Rubles,100 Rubles,500 Rubles,1000 Rubles;
+RUS1:10 Rubles, ,50 Rubles,100 Rubles, ,500 Rubles,1000 Rubles;
+AUS0:$1,$2,$5,$10,$20,$50,$100;
+CHL0: , ,500 Pesos,1000 Pesos,2000 Pesos,5000 Pesos,10000 Pesos,20000 Pesos;
+AUT0: , ,50 Shillings,100 Shillings, ,500 Shillings,1000 Shilings,5000 Shillings;
+SGP0:$2,$5,$10,$20,$50,$100;
+U&M0:$1,$2,$5,$10,$20,$50,$100/10 Pesos,20 Pesos,50 Pesos,100 Pesos,200 Pesos,500 Pesos;
+CAN0:$1,$2,$5,$10,$20,$50,$100;
+EUR0: , ,5 Euro,10 Euro,20 Euro,50 Euro,100 Euro,200 Euro,500 Euro;
+EUR1: ,5 Euro,10 Euro,20 Euro,50 Euro,100 Euro,200 Euro,500 Euro;
+S+E0: ,5 Euro,10 Euro,20 E\1000 P,50 E\2000 P,100 E\5000 P,200 E\10000 P,500 Euro;
+CHN0: , ,5 Yuan ,10 Yuan,20 Yuan,50 Yuan,100 Yuan;
+HKG0: ,$20HK,$50HK,$100HK, ,$500HK,$1000HK; 
+CCU0:5 CC Units,10 CC Units,20 CC Units,50 CC Units,100 CC Units,200 CC Units,500 CC Units;
+COL0:1000 Pesos,2000 Pesos,5000 Pesos,10000 Pesos,20000 Pesos,50000 Pesos;
+KAZ0: ,20 Tenge,50 Tenge,100 Tenge,200 Tenge,500 Tenge,1000 Tenge,2000 Tenge,5000 Tenge; 
+UKR0:1 Hryvnia,2 Hryvnias,5 Hryvnias,10 Hryvnias,20 Hryvnias,50 Hryvnias,100 Hryvnias,200 Hryvnias;
+
