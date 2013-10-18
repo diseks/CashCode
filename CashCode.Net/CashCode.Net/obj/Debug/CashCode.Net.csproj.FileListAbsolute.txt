@@ -1,0 +1,5 @@
+D:\Work\CashCode\CashCode.Net\CashCode.Net\obj\Debug\ResolveAssemblyReference.cache
+D:\Work\CashCode\CashCode.Net\CashCode.Net\bin\Debug\CashCode.Net.dll
+D:\Work\CashCode\CashCode.Net\CashCode.Net\bin\Debug\CashCode.Net.pdb
+D:\Work\CashCode\CashCode.Net\CashCode.Net\obj\Debug\CashCode.Net.dll
+D:\Work\CashCode\CashCode.Net\CashCode.Net\obj\Debug\CashCode.Net.pdb

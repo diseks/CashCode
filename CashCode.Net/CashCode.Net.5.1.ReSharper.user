@@ -1,0 +1,41 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="Properties" priority="0" />
+      <Item value="Settings`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@CashCodeTest.Properties.Settings">
+      <Item value="Default" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CashCodeTest.Properties.Settings">
+      <Item value="Port" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="93B2CB7F-AD6A-47A1-BA28-953B3EBA5302/f:Program.cs" caret="1128" fromTop="33" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="93B2CB7F-AD6A-47A1-BA28-953B3EBA5302/f:Program.cs" caret="1756" fromTop="31" />
+      <File id="93B2CB7F-AD6A-47A1-BA28-953B3EBA5302/f:Program.cs" caret="388" fromTop="16" />
+    </RecentEdits>
+  </RecentFiles>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerNUnit>
+    <NUnitInstallDir IsNull="False">
+    </NUnitInstallDir>
+    <UseAddins>Never</UseAddins>
+  </UnitTestRunnerNUnit>
+</Configuration>

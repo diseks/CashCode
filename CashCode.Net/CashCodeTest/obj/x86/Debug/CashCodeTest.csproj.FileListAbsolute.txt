@@ -1,0 +1,7 @@
+D:\Work\CashCode\CashCode.Net\CashCodeTest\bin\Debug\CashCodeTest.exe
+D:\Work\CashCode\CashCode.Net\CashCodeTest\bin\Debug\CashCodeTest.pdb
+D:\Work\CashCode\CashCode.Net\CashCodeTest\bin\Debug\CashCode.Net.dll
+D:\Work\CashCode\CashCode.Net\CashCodeTest\bin\Debug\CashCode.Net.pdb
+D:\Work\CashCode\CashCode.Net\CashCodeTest\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Work\CashCode\CashCode.Net\CashCodeTest\obj\x86\Debug\CashCodeTest.exe
+D:\Work\CashCode\CashCode.Net\CashCodeTest\obj\x86\Debug\CashCodeTest.pdb
