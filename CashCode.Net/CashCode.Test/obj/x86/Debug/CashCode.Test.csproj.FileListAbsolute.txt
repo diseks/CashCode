@@ -1,8 +1,0 @@
-D:\GitHub\CashCode\CashCode.Net\CashCode.Test\obj\x86\Debug\CashCode.Test.csprojResolveAssemblyReference.cache
-D:\GitHub\CashCode\CashCode.Net\CashCode.Test\bin\Debug\CashCode.Test.exe.config
-D:\GitHub\CashCode\CashCode.Net\CashCode.Test\bin\Debug\CashCode.Test.exe
-D:\GitHub\CashCode\CashCode.Net\CashCode.Test\bin\Debug\CashCode.Test.pdb
-D:\GitHub\CashCode\CashCode.Net\CashCode.Test\bin\Debug\CashCode.Net.dll
-D:\GitHub\CashCode\CashCode.Net\CashCode.Test\bin\Debug\CashCode.Net.pdb
-D:\GitHub\CashCode\CashCode.Net\CashCode.Test\obj\x86\Debug\CashCode.Test.exe
-D:\GitHub\CashCode\CashCode.Net\CashCode.Test\obj\x86\Debug\CashCode.Test.pdb

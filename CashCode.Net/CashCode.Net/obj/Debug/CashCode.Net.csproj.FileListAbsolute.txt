@@ -1,4 +1,0 @@
-D:\GitHub\CashCode\CashCode.Net\CashCode.Net\bin\Debug\CashCode.Net.dll
-D:\GitHub\CashCode\CashCode.Net\CashCode.Net\bin\Debug\CashCode.Net.pdb
-D:\GitHub\CashCode\CashCode.Net\CashCode.Net\obj\Debug\CashCode.Net.dll
-D:\GitHub\CashCode\CashCode.Net\CashCode.Net\obj\Debug\CashCode.Net.pdb
