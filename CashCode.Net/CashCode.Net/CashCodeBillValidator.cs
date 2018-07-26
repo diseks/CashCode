@@ -524,8 +524,10 @@ namespace CashCode.Net
             if (code == 0x02) { result = 10; }          // 10 р.
             else if (code == 0x03) { result = 50; }     // 50 р.
             else if (code == 0x04) { result = 100; }    // 100 р.
+            else if (code == 0x0c) { result = 200; }    // 200 р.
             else if (code == 0x05) { result = 500; }    // 500 р.
             else if (code == 0x06) { result = 1000; }   // 1000 р.
+            else if (code == 0x0d) { result = 2000; }   // 2000 р.
             else if (code == 0x07) { result = 5000; }   // 5000 р.
 
             return result;
