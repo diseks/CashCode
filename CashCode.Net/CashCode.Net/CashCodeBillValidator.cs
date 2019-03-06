@@ -52,13 +52,18 @@ namespace CashCode.Net
 
         bool _ReturnBill;
 
+        private Dictionary<int, int> CashCodeTable;
+
         BillCassetteStatus _cassettestatus = BillCassetteStatus.Inplace;
         #endregion
 
         #region Конструкторы
 
-        public CashCodeBillValidator(string PortName, int BaudRate)
+        public CashCodeBillValidator(string PortName, int BaudRate, Dictionary<int, int> cashCodeTable = null)
         {
+            if (cashCodeTable == null)
+                CashCodeTable = _defaultCashCodeTable;
+
             this._ErrorList = new CashCodeErroList();
             
             this._Disposed = false;
@@ -494,21 +499,17 @@ namespace CashCode.Net
         }
 
         // Таблица кодов валют
-        private int CashCodeTable(byte code)
+        private static Dictionary<int, int> _defaultCashCodeTable = new Dictionary<int, int>()
         {
-            int result = 0;
-
-            if (code == 0x02) { result = 10; }          // 10 р.
-            else if (code == 0x03) { result = 50; }     // 50 р.
-            else if (code == 0x04) { result = 100; }    // 100 р.
-            else if (code == 0x0c) { result = 200; }    // 200 р.
-            else if (code == 0x05) { result = 500; }    // 500 р.
-            else if (code == 0x06) { result = 1000; }   // 1000 р.
-            else if (code == 0x0d) { result = 2000; }   // 2000 р.
-            else if (code == 0x07) { result = 5000; }   // 5000 р.
-
-            return result;
-        }
+            { 0x02, 10 },               // 10 р.
+            { 0x03, 50 },               // 50 р.
+            { 0x04, 100 },              // 100 р.
+            { 0x0c, 200 },              // 200 р.
+            { 0x05, 500 },              // 500 р.
+            { 0x06, 1000 },             // 1000 р.
+            { 0x0d, 2000 },             // 2000 р.
+            { 0x07, 5000 }              // 5000 р.
+        };
 
         #endregion
 
@@ -626,7 +627,7 @@ namespace CashCode.Net
                             this.SendCommand(BillValidatorCommands.ACK);
 
                             // Событие, что купюра в процессе отправки в стек
-                            OnBillStacking(new BillStackedEventArgs(CashCodeTable(ByteResult[4])));
+                            OnBillStacking(new BillStackedEventArgs(CashCodeTable[ByteResult[4]]));
 
                             // Если программа отвечает возвратом, то на возврат
                             if (this._ReturnBill)
@@ -658,7 +659,7 @@ namespace CashCode.Net
                             // Подтветждаем
                             this.SendCommand(BillValidatorCommands.ACK);
 
-                            OnBillReceived(new BillReceivedEventArgs(BillRecievedStatus.Accepted, CashCodeTable(ByteResult[4]), ""));
+                            OnBillReceived(new BillReceivedEventArgs(BillRecievedStatus.Accepted, CashCodeTable[ByteResult[4]], ""));
                         }
 
                         // RETURNING
