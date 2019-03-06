@@ -93,15 +93,10 @@ namespace CashCode.Net
         #endregion
 
         #region Деструктор
-
-        // Деструктор для финализации кода
-        ~CashCodeBillValidator() { Dispose(false); }
-
         // Реализует интерфейс IDisposable
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this); // Прикажем GC не финализировать объект после вызова Dispose, так как он уже освобожден
         }
 
         // Dispose(bool disposing) выполняется по двум сценариям
@@ -117,33 +112,15 @@ namespace CashCode.Net
                 // Если disposing=true, освободим все управляемые и неуправляемые ресурсы
                 if (disposing)
                 {
-                    // Здесь освободим управляемые ресурсы
-                    try
+                    // Отприм сигнал выключения на купюроприемник
+                    if (_IsConnected)
                     {
-                        // Останови таймер, если он работает
-                        if (this._IsListening)
-                        {
-                            this._Listener.Enabled = this._IsListening = false;
-                        }
-
-                        this._Listener.Dispose();
-
-                        // Отприм сигнал выключения на купюроприемник
-                        if (this._IsConnected)
-                        {
-                            this.DisableBillValidator();
-                        }
+                        DisableBillValidator();
                     }
-                    catch { }
+                    // Здесь освободим управляемые ресурсы
+                    _Listener.Dispose();
+                    _ComPort.Dispose();
                 }
-
-                // Высовем соответствующие методы для освобождения неуправляемых ресурсов
-                // Если disposing=false, то только следующий код буде выполнен
-                try 
-                {
-                    this._ComPort.Close();
-                }
-                catch { }
 
                 _Disposed = true;
             }
