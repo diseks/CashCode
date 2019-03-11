@@ -627,7 +627,15 @@ namespace CashCode.Net
                             this.SendCommand(BillValidatorCommands.ACK);
 
                             // Событие, что купюра в процессе отправки в стек
-                            OnBillStacking(new BillStackedEventArgs(CashCodeTable[ByteResult[4]]));
+                            if (CashCodeTable.ContainsKey(ByteResult[4]))
+                            {
+                                OnBillStacking(new BillStackedEventArgs(CashCodeTable[ByteResult[4]]));
+                            }
+                            else
+                            {
+                                OnBillStacking(new BillStackedEventArgs(0) { Cancel = true});
+                                OnBillReceived(new BillReceivedEventArgs(BillRecievedStatus.Rejected, 0, String.Format(CashCode.Net.Properties.Resource._Listener_Elapsed_Code0NotFoundInBillTable, ByteResult[4])));
+                            }
 
                             // Если программа отвечает возвратом, то на возврат
                             if (this._ReturnBill)
@@ -658,7 +666,6 @@ namespace CashCode.Net
                         {
                             // Подтветждаем
                             this.SendCommand(BillValidatorCommands.ACK);
-
                             OnBillReceived(new BillReceivedEventArgs(BillRecievedStatus.Accepted, CashCodeTable[ByteResult[4]], ""));
                         }
 
