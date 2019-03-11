@@ -13,43 +13,43 @@ namespace CashCode.Net
         {
             Errors = new Dictionary<int, string>();
 
-            Errors.Add(100000, "Неизвестная ошибка");
+            Errors.Add(100000, CashCode.Net.Properties.Resource.CashCodeErroList_UnknownError);
 
-            Errors.Add(100010, "Ошибка открытия Com-порта");
-            Errors.Add(100020, "Com-порт не открыт");
-            Errors.Add(100030, "Ошибка отпраки команды включения купюроприемника.");
-            Errors.Add(100040, "Ошибка отпраки команды включения купюроприемника. От купюроприемника не получена команда POWER UP.");
-            Errors.Add(100050, "Ошибка отпраки команды включения купюроприемника. От купюроприемника не получена команда ACK.");
-            Errors.Add(100060, "Ошибка отпраки команды включения купюроприемника. От купюроприемника не получена команда INITIALIZE.");
-            Errors.Add(100070, "Ошибка проверки статуса купюроприемника. Cтекер снят.");
-            Errors.Add(100080, "Ошибка проверки статуса купюроприемника. Стекер переполнен.");
-            Errors.Add(100090, "Ошибка проверки статуса купюроприемника. В валидаторе застряла купюра.");
-            Errors.Add(100100, "Ошибка проверки статуса купюроприемника. В стекере застряла купюра.");
-            Errors.Add(100110, "Ошибка проверки статуса купюроприемника. Фальшивая купюра.");
-            Errors.Add(100120, "Ошибка проверки статуса купюроприемника. Предыдущая купюра еще не попала в стек и находится в механизме распознавания.");
+            Errors.Add(100010, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorOpeningComPort);
+            Errors.Add(100020, CashCode.Net.Properties.Resource.CashCodeErroList_ComPortNotOpen);
+            Errors.Add(100030, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorOffspringOfTheCommandToEnableTheBillValidator);
+            Errors.Add(100040, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorOffspringOfTheCommandToEnableTheBillValidatorNoPOWERUPCommandWasReceivedFromTheBillValidator);
+            Errors.Add(100050, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorOffspringOfTheCommandToEnableTheBillValidatorNoACKCommandWasReceivedFromTheBillValidator);
+            Errors.Add(100060, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorOffspringOfTheCommandToEnableTheBillValidatorNoINITIALIZECommandWasReceivedFromTheBillValidator);
+            Errors.Add(100070, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorStackerSDown);
+            Errors.Add(100080, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorStackerIsFull);
+            Errors.Add(100090, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorThereSABillStuckInTheValidator);
+            Errors.Add(100100, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorThereSABillStuckInTheStacker);
+            Errors.Add(100110, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorFakeBill);
+            Errors.Add(100120, CashCode.Net.Properties.Resource.CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorThePreviousBillHasNotYetHitTheStackAndIsInTheRecognitionMechanism);
 
-            Errors.Add(100130, "Ошибка работы купюроприемника. Сбой при работе механизма стекера.");
-            Errors.Add(100140, "Ошибка работы купюроприемника. Сбой в скорости передачи купюры в стекер.");
-            Errors.Add(100150, "Ошибка работы купюроприемника. Сбой передачи купюры в стекер.");
-            Errors.Add(100160, "Ошибка работы купюроприемника. Сбой механизма выравнивания купюр.");
-            Errors.Add(100170, "Ошибка работы купюроприемника. Сбой в работе стекера.");
-            Errors.Add(100180, "Ошибка работы купюроприемника. Сбой в работе оптических сенсоров.");
-            Errors.Add(100190, "Ошибка работы купюроприемника. Сбой работы канала индуктивности.");
-            Errors.Add(100200, "Ошибка работы купюроприемника. Сбой в работе канала проверки заполняемости стекера.");
+            Errors.Add(100130, CashCode.Net.Properties.Resource.CashCodeErroList_BillValidatorErrorStackerMechanismError);
+            Errors.Add(100140, CashCode.Net.Properties.Resource.CashCodeErroList_BillValidatorErrorStackerTransmissionSpeedError);
+            Errors.Add(100150, CashCode.Net.Properties.Resource.CashCodeErroList_BillValidatorErrorSendBillsToStackerError);
+            Errors.Add(100160, CashCode.Net.Properties.Resource.CashCodeErroList_BillValidatorErrorAlignmentBillsMechanismError);
+            Errors.Add(100170, CashCode.Net.Properties.Resource.CashCodeErroList_BillValidatorErrorStackerError);
+            Errors.Add(100180, CashCode.Net.Properties.Resource.CashCodeErroList_BillValidatorErrorOpticalSensorsError);
+            Errors.Add(100190, CashCode.Net.Properties.Resource.CashCodeErroList_BillValidatorErrorInductanceChannelError);
+            Errors.Add(100200, CashCode.Net.Properties.Resource.CashCodeErroList_BillValidatorErrorStackerOccupancyCheckChannelError);
 
             // Ошибки распознования купюры
-            Errors.Add(0x60, "Rejecting due to Insertion");
-            Errors.Add(0x61, "Rejecting due to Magnetic");
-            Errors.Add(0x62, "Rejecting due to Remained bill in head");
-            Errors.Add(0x63, "Rejecting due to Multiplying");
-            Errors.Add(0x64, "Rejecting due to Conveying");
-            Errors.Add(0x65, "Rejecting due to Identification1");
-            Errors.Add(0x66, "Rejecting due to Verification");
-            Errors.Add(0x67, "Rejecting due to Optic");
-            Errors.Add(0x68, "Rejecting due to Inhibit");
-            Errors.Add(0x69, "Rejecting due to Capacity");
-            Errors.Add(0x6A, "Rejecting due to Operation");
-            Errors.Add(0x6C, "Rejecting due to Length");
+            Errors.Add(0x60, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToInsertion);
+            Errors.Add(0x61, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToMagnetic);
+            Errors.Add(0x62, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToRemainedBillInHead);
+            Errors.Add(0x63, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToMultiplying);
+            Errors.Add(0x64, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToConveying);
+            Errors.Add(0x65, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToIdentification1);
+            Errors.Add(0x66, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToVerification);
+            Errors.Add(0x67, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToOptic);
+            Errors.Add(0x68, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToInhibit);
+            Errors.Add(0x69, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToCapacity);
+            Errors.Add(0x6A, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToOperation);
+            Errors.Add(0x6C, CashCode.Net.Properties.Resource.CashCodeErroList_RejectingDueToLength);
         }
     }
 }

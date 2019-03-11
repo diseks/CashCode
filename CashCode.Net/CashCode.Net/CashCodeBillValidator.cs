@@ -318,7 +318,7 @@ namespace CashCode.Net
             {
                 if (!_IsListening)
                 {
-                    throw new InvalidOperationException("Ошибка метода включения приема купюр. Необходимо вызвать метод StartListening.");
+                    throw new InvalidOperationException(CashCode.Net.Properties.Resource.EnableBillValidator_ErrorInTheMethodOfEnablingTheReceptionOfBanknotesYouMustCallTheStartListeningMethod);
                 }
 
                 lock (_Locker)
@@ -490,7 +490,7 @@ namespace CashCode.Net
                 // Должны уже получить данные с ком-порта, поэтому проверим CRC
                 if (ByteResult.Length == 0 || !Package.CheckCRC(ByteResult))
                 {
-                    throw new ArgumentException("Несоответствие контрольной суммы полученного сообщения. Возможно устройство не подключено к COM-порту. Проверьте настройки подключения.");
+                    throw new ArgumentException(CashCode.Net.Properties.Resource.SendCommand_TheMismatchOfTheChecksumOfTheReceivedMessageTheDeviceMayNotBeConnectedToTheCOMPortCheckYourConnectionSettings);
                 }
 
                 return ByteResult;
