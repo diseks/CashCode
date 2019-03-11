@@ -202,4 +202,7 @@
   <data name="CashCodeErroList_RejectingDueToLength" xml:space="preserve">
     <value>Ошибка приема купюры. Ошибка размера купюры.(Rejecting due to Length)</value>
   </data>
+  <data name="_Listener_Elapsed_Code0NotFoundInBillTable" xml:space="preserve">
+    <value>Код {0} не найден в таблице купюр</value>
+  </data>
 </root>

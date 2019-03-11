@@ -61,6 +61,15 @@ namespace CashCode.Net.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Code {0} not found in bill table.
+        /// </summary>
+        internal static string _Listener_Elapsed_Code0NotFoundInBillTable {
+            get {
+                return ResourceManager.GetString("_Listener_Elapsed_Code0NotFoundInBillTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Bill validator error. Alignment bills mechanism error..
         /// </summary>
         internal static string CashCodeErroList_BillValidatorErrorAlignmentBillsMechanismError {
