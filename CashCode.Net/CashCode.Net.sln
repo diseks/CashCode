@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashCode.Net", "CashCode.Net\CashCode.Net.csproj", "{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashCode.Test", "CashCode.Test\CashCode.Test.csproj", "{0E1BE289-6D28-41C6-AAD6-271B19DCA9C6}"
@@ -20,11 +22,12 @@ Global
 		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|x86.ActiveCfg = Release|Any CPU
+		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|x86.ActiveCfg = Debug|Any CPU
+		{71B8BA4F-9AE3-4EC9-8196-79E0A2A4834B}.Release|x86.Build.0 = Debug|Any CPU
 		{0E1BE289-6D28-41C6-AAD6-271B19DCA9C6}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{0E1BE289-6D28-41C6-AAD6-271B19DCA9C6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{0E1BE289-6D28-41C6-AAD6-271B19DCA9C6}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -38,5 +41,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8B23E08-EBCD-4D2E-B6F3-53713C3D330D}
 	EndGlobalSection
 EndGlobal
