@@ -6,6 +6,7 @@
     <Description>Библиотека работы с купюроприемником Bill Validator with Stacker</Description>
     <Authors>Strukachev D., Tikhonov K.</Authors>
     <Copyright>Copyright © Strukachev D. 2010</Copyright>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
