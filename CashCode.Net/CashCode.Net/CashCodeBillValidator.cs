@@ -23,6 +23,9 @@ namespace CashCode.Net
     // Делегат события в процессе отправки купюры в стек (Здесь можно делать возврат)
     public delegate void BillStackingHandler(object Sender, BillStackedEventArgs e);
 
+    // Делегат события ошибок
+    public delegate void BillExceptionHandler(object Sender, BillExceptionEventArgs e);
+
     public sealed class CashCodeBillValidator : IDisposable
     {
         #region Закрытые члены
@@ -563,6 +566,16 @@ namespace CashCode.Net
             }
         }
 
+        public event BillExceptionHandler BillException;
+
+        private void OnBillException(BillExceptionEventArgs e)
+        {
+            if (BillException != null)
+            {
+                BillException(this, new BillExceptionEventArgs(e.Message));
+            }
+        }
+
         #endregion
 
         #region Обработчики событий
@@ -711,7 +724,9 @@ namespace CashCode.Net
                 }
             }
             catch
-            {}
+            {
+                OnBillException(new BillExceptionEventArgs("Связь с купюроприемником потеряна"));
+            }
             finally
             {
                 // Если таймер выключен, то запускаем
@@ -761,6 +776,16 @@ namespace CashCode.Net
         {
             this.Value = value;
             this.Cancel = false;
+        }
+    }
+
+    public class BillExceptionEventArgs : EventArgs
+    {
+        public string Message { get; set; }
+
+        public BillExceptionEventArgs(string message)
+        {
+            Message = message;
         }
     }
 }

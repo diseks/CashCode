@@ -19,6 +19,7 @@ namespace CashCodeTest
                     c.BillReceived += new BillReceivedHandler(c_BillReceived);
                     c.BillStacking += new BillStackingHandler(c_BillStacking);
                     c.BillCassetteStatusEvent += new BillCassetteHandler(c_BillCassetteStatusEvent);
+                    c.BillException += new BillExceptionHandler(c_BillException);
                     c.ConnectBillValidator();
 
                     if (c.IsConnected)
@@ -71,6 +72,11 @@ namespace CashCodeTest
                 Sum += e.Value;
                 Console.WriteLine("Bill accepted! " + e.Value + " руб. Общая сумму: " + Sum.ToString());
             }
+        }
+
+        static void c_BillException(object Sender, BillExceptionEventArgs e)
+        {
+            Console.WriteLine(e.Message);
         }
 
 
