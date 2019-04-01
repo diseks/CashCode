@@ -120,13 +120,8 @@ namespace CashCode.Net
                 // Если disposing=true, освободим все управляемые и неуправляемые ресурсы
                 if (disposing)
                 {
-                    // Отприм сигнал выключения на купюроприемник
-                    if (_IsConnected)
-                    {
-                        DisableBillValidator();
-                    }
-                    // Здесь освободим управляемые ресурсы
                     _Listener.Dispose();
+                    _IsListening = false;
                     _ComPort.Dispose();
                 }
 
@@ -460,7 +455,7 @@ namespace CashCode.Net
         
 
         // Отправка команды купюроприемнику
-        private byte[] SendCommand(BillValidatorCommands cmd, byte[] Data = null)
+        private byte[] SendCommand(BillValidatorCommands cmd, byte[] data = null)
         {
             if (cmd == BillValidatorCommands.ACK || cmd == BillValidatorCommands.NAK)
             {
@@ -478,25 +473,29 @@ namespace CashCode.Net
                 Package package = new Package();
                 package.Cmd = (byte)cmd;
 
-                if (Data != null) { package.Data = Data; }
+                if (data != null) { package.Data = data; }
 
                 byte[] CmdBytes = package.GetBytes();
                 this._ComPort.Write(CmdBytes, 0, CmdBytes.Length);
 
                 // Подождем пока получим данные с ком-порта
-                this._SynchCom.WaitOne(EVENT_WAIT_HANDLER_TIMEOUT);
+                var timeout = !this._SynchCom.WaitOne(EVENT_WAIT_HANDLER_TIMEOUT);
                 this._SynchCom.Reset();
 
-                byte[] ByteResult = this._ReceivedBytes.ToArray();
+                if (timeout)
+                    throw new TimeoutException();
 
                 // Если CRC ок, то проверим четвертый бит с результатом
                 // Должны уже получить данные с ком-порта, поэтому проверим CRC
-                if (ByteResult.Length == 0 || !Package.CheckCRC(ByteResult))
+                if (_packet == null || !Package.CheckCRC(_packet))
                 {
                     throw new ArgumentException(CashCode.Net.Properties.Resource.SendCommand_TheMismatchOfTheChecksumOfTheReceivedMessageTheDeviceMayNotBeConnectedToTheCOMPortCheckYourConnectionSettings);
                 }
 
-                return ByteResult;
+                var res = _packet;
+                _packet = null;
+
+                return res;
             }
 
         }
@@ -513,6 +512,8 @@ namespace CashCode.Net
             { 0x0d, 2000 },             // 2000 р.
             { 0x07, 5000 }              // 5000 р.
         };
+        private byte[] _packet;
+        private readonly object _dataSyncRoot = new object();
 
         #endregion
 
@@ -583,18 +584,49 @@ namespace CashCode.Net
         // Получение данных с ком-порта
         private void _ComPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            // Заснем на 100 мс, дабы дать программе получить все данные с ком-порта
-            Thread.Sleep(100);
-            this._ReceivedBytes.Clear();
-
-            // Читаем байты
-            while (_ComPort.BytesToRead > 0)
+            lock (_dataSyncRoot)
             {
-                this._ReceivedBytes.Add((byte)_ComPort.ReadByte());
-            }
+                // Читаем байты
+                while (_ComPort.BytesToRead > 0)
+                {
+                    this._ReceivedBytes.Add((byte)_ComPort.ReadByte());
+                }
 
-            // Снимаем блокировку
-            this._SynchCom.Set();
+                CheckPacket();
+            }
+        }
+
+        private void CheckPacket()
+        {
+            var start = _ReceivedBytes.IndexOf(0x2);
+            if (start >= 0)
+            {
+                var lng = start + 2;
+                if (_ReceivedBytes.Count < lng + 1)
+                    return;
+
+                int length = _ReceivedBytes[lng];
+                if (length == 0)
+                {
+                    var lngHigh = lng + 2;
+                    var lngLow = lng + 3;
+
+                    /// исправить если требуется суб команда
+
+                    length = lngHigh;
+                    length = length << 8;
+                    length = length | lngLow;
+                }
+
+                if (_ReceivedBytes.Count < start + length)
+                    return;
+
+                _packet = _ReceivedBytes.Skip(start).Take(length).ToArray();
+                _ReceivedBytes.Clear();
+
+                // Снимаем блокировку
+                this._SynchCom.Set();
+            }
         }
 
         // Таймер прослушки купюроприемника

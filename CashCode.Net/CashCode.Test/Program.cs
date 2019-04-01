@@ -10,35 +10,35 @@ namespace CashCodeTest
     {
         static int Sum = 0;
 
+        static CashCodeBillValidator c = new CashCodeBillValidator("COM4", 9600);
+
+
         static void Main(string[] args)
         {
             try
             {
-                using (CashCodeBillValidator c = new CashCodeBillValidator(CashCode.Test.Properties.Settings.Default.Port, 9600))
+                c.BillReceived += new BillReceivedHandler(c_BillReceived);
+                c.BillStacking += new BillStackingHandler(c_BillStacking);
+                c.BillCassetteStatusEvent += new BillCassetteHandler(c_BillCassetteStatusEvent);
+                c.BillException += new BillExceptionHandler(c_BillException);
+                c.ConnectBillValidator();
+
+                if (c.IsConnected)
                 {
-                    c.BillReceived += new BillReceivedHandler(c_BillReceived);
-                    c.BillStacking += new BillStackingHandler(c_BillStacking);
-                    c.BillCassetteStatusEvent += new BillCassetteHandler(c_BillCassetteStatusEvent);
-                    c.BillException += new BillExceptionHandler(c_BillException);
-                    c.ConnectBillValidator();
-
-                    if (c.IsConnected)
-                    {
-                        c.PowerUpBillValidator();
-                        c.StartListening();
+                    c.PowerUpBillValidator();
+                    c.StartListening();
 
 
-                        c.EnableBillValidator();
-                        Console.ReadKey();
-                        c.DisableBillValidator();
-                        Console.ReadKey();
-                        c.EnableBillValidator();
-                        Console.ReadKey();
-                        c.StopListening();
-                    }
-
-                    c.Dispose();
+                    c.EnableBillValidator();
+                    Console.ReadKey();
+                    c.DisableBillValidator();
+                    Console.ReadKey();
+                    c.EnableBillValidator();
+                    Console.ReadKey();
+                    c.StopListening();
                 }
+
+                c.Dispose();
             }
             catch (Exception ex)
             {
@@ -77,6 +77,7 @@ namespace CashCodeTest
         static void c_BillException(object Sender, BillExceptionEventArgs e)
         {
             Console.WriteLine(e.Message);
+            c.Dispose();
         }
 
 
