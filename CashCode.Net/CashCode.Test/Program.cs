@@ -28,13 +28,14 @@ namespace CashCodeTest
                     c.PowerUpBillValidator();
                     c.StartListening();
 
-
                     c.EnableBillValidator();
                     Console.ReadKey();
+                    c.AcceptBill();
                     c.DisableBillValidator();
                     Console.ReadKey();
                     c.EnableBillValidator();
                     Console.ReadKey();
+                    c.RejectBill();
                     c.StopListening();
                 }
 
@@ -51,14 +52,18 @@ namespace CashCodeTest
             Console.WriteLine(e.Status.ToString());
         }
 
-        static void c_BillStacking(object Sender, System.ComponentModel.CancelEventArgs e)
+        static void c_BillStacking(object Sender, BillStackedEventArgs e)
         {
             Console.WriteLine("Купюра в стеке");
-            if (Sum > 100)
-            {
-                //e.Cancel = true;
-                Console.WriteLine("Превышен лимит единовременной оплаты");
-            }
+
+            e.Hold = true; 
+
+
+            //if (Sum > 100)
+            //{ 
+            //    e.Cancel = true;
+            //    Console.WriteLine("Превышен лимит единовременной оплаты");
+            //}
         }
 
         static void c_BillReceived(object Sender, BillReceivedEventArgs e)

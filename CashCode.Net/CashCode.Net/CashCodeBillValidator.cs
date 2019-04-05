@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CashCode.Net
 {
@@ -54,6 +55,7 @@ namespace CashCode.Net
         private System.Timers.Timer _Listener;  // Таймер прослушивания купюроприемника
 
         bool _ReturnBill;
+        bool _holdBill;
 
         private Dictionary<int, int> CashCodeTable;
 
@@ -552,9 +554,16 @@ namespace CashCode.Net
             if (BillStacking != null)
             {
                 bool cancel = false;
+                bool hold = false;
                 foreach (BillStackingHandler subscriber in BillStacking.GetInvocationList())
                 {
                     subscriber(this, e);
+
+                    if (e.Hold)
+                    {
+                        hold = true;
+                        break;
+                    }
 
                     if (e.Cancel)
                     {
@@ -563,6 +572,7 @@ namespace CashCode.Net
                     }
                 }
 
+                _holdBill = hold;
                 _ReturnBill = cancel;
             }
         }
@@ -629,6 +639,21 @@ namespace CashCode.Net
             }
         }
 
+        public void AcceptBill()
+        {
+            this.SendCommand(BillValidatorCommands.STACK).ToList();
+            _holdBill = false;
+        }
+
+        public void RejectBill()
+        {
+            this.SendCommand(BillValidatorCommands.RETURN).ToList();
+            _holdBill = false;
+            this._ReturnBill = false;
+        }
+        
+
+
         // Таймер прослушки купюроприемника
         private void _Listener_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
@@ -682,8 +707,12 @@ namespace CashCode.Net
                                 OnBillReceived(new BillReceivedEventArgs(BillRecievedStatus.Rejected, 0, String.Format(CashCode.Net.Properties.Resource._Listener_Elapsed_Code0NotFoundInBillTable, ByteResult[4])));
                             }
 
+                            if (_holdBill)
+                            {
+
+                            }
                             // Если программа отвечает возвратом, то на возврат
-                            if (this._ReturnBill)
+                            else if (this._ReturnBill)
                             {
                                 // RETURN
                                 // Если программа отказывает принимать купюру, отправим RETURN
@@ -803,6 +832,8 @@ namespace CashCode.Net
     public class BillStackedEventArgs : CancelEventArgs
     {
         public int Value { get; private set; }
+
+        public bool Hold { get; set; }
 
         public BillStackedEventArgs(int value)
         {
