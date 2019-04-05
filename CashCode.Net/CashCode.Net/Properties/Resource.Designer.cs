@@ -70,6 +70,15 @@ namespace CashCode.Net.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Error accepting bill.
+        /// </summary>
+        internal static string AcceptBill_ErrorAcceptingBill {
+            get {
+                return ResourceManager.GetString("AcceptBill_ErrorAcceptingBill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Bill validator error. Alignment bills mechanism error..
         /// </summary>
         internal static string CashCodeErroList_BillValidatorErrorAlignmentBillsMechanismError {
@@ -379,6 +388,15 @@ namespace CashCode.Net.Properties {
             get {
                 return ResourceManager.GetString("EnableBillValidator_ErrorInTheMethodOfEnablingTheReceptionOfBanknotesYouMustCallT" +
                         "heStartListeningMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Error return bill.
+        /// </summary>
+        internal static string RejectBill_ErrorReturnBill {
+            get {
+                return ResourceManager.GetString("RejectBill_ErrorReturnBill", resourceCulture);
             }
         }
         

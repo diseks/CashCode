@@ -205,4 +205,10 @@
   <data name="_Listener_Elapsed_Code0NotFoundInBillTable" xml:space="preserve">
     <value>Code {0} not found in bill table</value>
   </data>
+  <data name="AcceptBill_ErrorAcceptingBill" xml:space="preserve">
+    <value>Error accepting bill</value>
+  </data>
+  <data name="RejectBill_ErrorReturnBill" xml:space="preserve">
+    <value>Error return bill</value>
+  </data>
 </root>

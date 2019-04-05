@@ -641,13 +641,59 @@ namespace CashCode.Net
 
         public void AcceptBill()
         {
-            this.SendCommand(BillValidatorCommands.STACK).ToList();
+            List<byte> ByteResult = null;
+
+            // Если ком-порт не открыт
+            if (!this._IsConnected)
+            {
+                this._LastError = 100020;
+                throw new System.IO.IOException(this._ErrorList.Errors[this._LastError]);
+            }
+
+            try
+            {
+                if (!_IsListening)
+                {
+                    throw new InvalidOperationException(CashCode.Net.Properties.Resource.EnableBillValidator_ErrorInTheMethodOfEnablingTheReceptionOfBanknotesYouMustCallTheStartListeningMethod);
+                }
+                lock (_Locker)
+                {
+                    ByteResult = this.SendCommand(BillValidatorCommands.STACK).ToList();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(CashCode.Net.Properties.Resource.AcceptBill_ErrorAcceptingBill, ex);
+            }
             _holdBill = false;
         }
 
         public void RejectBill()
         {
-            this.SendCommand(BillValidatorCommands.RETURN).ToList();
+            List<byte> ByteResult = null;
+
+            // Если ком-порт не открыт
+            if (!this._IsConnected)
+            {
+                this._LastError = 100020;
+                throw new System.IO.IOException(this._ErrorList.Errors[this._LastError]);
+            }
+
+            try
+            {
+                if (!_IsListening)
+                {
+                    throw new InvalidOperationException(CashCode.Net.Properties.Resource.EnableBillValidator_ErrorInTheMethodOfEnablingTheReceptionOfBanknotesYouMustCallTheStartListeningMethod);
+                }
+                lock (_Locker)
+                {
+                    ByteResult = this.SendCommand(BillValidatorCommands.RETURN).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(CashCode.Net.Properties.Resource.RejectBill_ErrorReturnBill, ex);
+            }
             _holdBill = false;
             this._ReturnBill = false;
         }
