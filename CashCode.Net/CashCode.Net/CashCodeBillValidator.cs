@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CashCode.Net
 {
@@ -22,6 +23,9 @@ namespace CashCode.Net
 
     // Делегат события в процессе отправки купюры в стек (Здесь можно делать возврат)
     public delegate void BillStackingHandler(object Sender, BillStackedEventArgs e);
+
+    // Делегат события ошибок
+    public delegate void BillExceptionHandler(object Sender, BillExceptionEventArgs e);
 
     public sealed class CashCodeBillValidator : IDisposable
     {
@@ -51,14 +55,20 @@ namespace CashCode.Net
         private System.Timers.Timer _Listener;  // Таймер прослушивания купюроприемника
 
         bool _ReturnBill;
+        bool _holdBill;
+
+        private Dictionary<int, int> CashCodeTable;
 
         BillCassetteStatus _cassettestatus = BillCassetteStatus.Inplace;
         #endregion
 
         #region Конструкторы
 
-        public CashCodeBillValidator(string PortName, int BaudRate)
+        public CashCodeBillValidator(string PortName, int BaudRate, Dictionary<int, int> cashCodeTable = null)
         {
+            if (cashCodeTable == null)
+                CashCodeTable = _defaultCashCodeTable;
+
             this._ErrorList = new CashCodeErroList();
             
             this._Disposed = false;
@@ -93,15 +103,10 @@ namespace CashCode.Net
         #endregion
 
         #region Деструктор
-
-        // Деструктор для финализации кода
-        ~CashCodeBillValidator() { Dispose(false); }
-
         // Реализует интерфейс IDisposable
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this); // Прикажем GC не финализировать объект после вызова Dispose, так как он уже освобожден
         }
 
         // Dispose(bool disposing) выполняется по двум сценариям
@@ -117,33 +122,10 @@ namespace CashCode.Net
                 // Если disposing=true, освободим все управляемые и неуправляемые ресурсы
                 if (disposing)
                 {
-                    // Здесь освободим управляемые ресурсы
-                    try
-                    {
-                        // Останови таймер, если он работает
-                        if (this._IsListening)
-                        {
-                            this._Listener.Enabled = this._IsListening = false;
-                        }
-
-                        this._Listener.Dispose();
-
-                        // Отприм сигнал выключения на купюроприемник
-                        if (this._IsConnected)
-                        {
-                            this.DisableBillValidator();
-                        }
-                    }
-                    catch { }
+                    _Listener.Dispose();
+                    _IsListening = false;
+                    _ComPort.Dispose();
                 }
-
-                // Высовем соответствующие методы для освобождения неуправляемых ресурсов
-                // Если disposing=false, то только следующий код буде выполнен
-                try 
-                {
-                    this._ComPort.Close();
-                }
-                catch { }
 
                 _Disposed = true;
             }
@@ -336,7 +318,7 @@ namespace CashCode.Net
             {
                 if (!_IsListening)
                 {
-                    throw new InvalidOperationException("Ошибка метода включения приема купюр. Необходимо вызвать метод StartListening.");
+                    throw new InvalidOperationException(CashCode.Net.Properties.Resource.EnableBillValidator_ErrorInTheMethodOfEnablingTheReceptionOfBanknotesYouMustCallTheStartListeningMethod);
                 }
 
                 lock (_Locker)
@@ -475,7 +457,7 @@ namespace CashCode.Net
         
 
         // Отправка команды купюроприемнику
-        private byte[] SendCommand(BillValidatorCommands cmd, byte[] Data = null)
+        private byte[] SendCommand(BillValidatorCommands cmd, byte[] data = null)
         {
             if (cmd == BillValidatorCommands.ACK || cmd == BillValidatorCommands.NAK)
             {
@@ -493,45 +475,47 @@ namespace CashCode.Net
                 Package package = new Package();
                 package.Cmd = (byte)cmd;
 
-                if (Data != null) { package.Data = Data; }
+                if (data != null) { package.Data = data; }
 
                 byte[] CmdBytes = package.GetBytes();
                 this._ComPort.Write(CmdBytes, 0, CmdBytes.Length);
 
                 // Подождем пока получим данные с ком-порта
-                this._SynchCom.WaitOne(EVENT_WAIT_HANDLER_TIMEOUT);
+                var timeout = !this._SynchCom.WaitOne(EVENT_WAIT_HANDLER_TIMEOUT);
                 this._SynchCom.Reset();
 
-                byte[] ByteResult = this._ReceivedBytes.ToArray();
+                if (timeout)
+                    throw new TimeoutException();
 
                 // Если CRC ок, то проверим четвертый бит с результатом
                 // Должны уже получить данные с ком-порта, поэтому проверим CRC
-                if (ByteResult.Length == 0 || !Package.CheckCRC(ByteResult))
+                if (_packet == null || !Package.CheckCRC(_packet))
                 {
-                    throw new ArgumentException("Несоответствие контрольной суммы полученного сообщения. Возможно устройство не подключено к COM-порту. Проверьте настройки подключения.");
+                    throw new ArgumentException(CashCode.Net.Properties.Resource.SendCommand_TheMismatchOfTheChecksumOfTheReceivedMessageTheDeviceMayNotBeConnectedToTheCOMPortCheckYourConnectionSettings);
                 }
 
-                return ByteResult;
+                var res = _packet;
+                _packet = null;
+
+                return res;
             }
 
         }
 
         // Таблица кодов валют
-        private int CashCodeTable(byte code)
+        private static Dictionary<int, int> _defaultCashCodeTable = new Dictionary<int, int>()
         {
-            int result = 0;
-
-            if (code == 0x02) { result = 10; }          // 10 р.
-            else if (code == 0x03) { result = 50; }     // 50 р.
-            else if (code == 0x04) { result = 100; }    // 100 р.
-            else if (code == 0x0c) { result = 200; }    // 200 р.
-            else if (code == 0x05) { result = 500; }    // 500 р.
-            else if (code == 0x06) { result = 1000; }   // 1000 р.
-            else if (code == 0x0d) { result = 2000; }   // 2000 р.
-            else if (code == 0x07) { result = 5000; }   // 5000 р.
-
-            return result;
-        }
+            { 0x02, 10 },               // 10 р.
+            { 0x03, 50 },               // 50 р.
+            { 0x04, 100 },              // 100 р.
+            { 0x0c, 200 },              // 200 р.
+            { 0x05, 500 },              // 500 р.
+            { 0x06, 1000 },             // 1000 р.
+            { 0x0d, 2000 },             // 2000 р.
+            { 0x07, 5000 }              // 5000 р.
+        };
+        private byte[] _packet;
+        private readonly object _dataSyncRoot = new object();
 
         #endregion
 
@@ -570,9 +554,16 @@ namespace CashCode.Net
             if (BillStacking != null)
             {
                 bool cancel = false;
+                bool hold = false;
                 foreach (BillStackingHandler subscriber in BillStacking.GetInvocationList())
                 {
                     subscriber(this, e);
+
+                    if (e.Hold)
+                    {
+                        hold = true;
+                        break;
+                    }
 
                     if (e.Cancel)
                     {
@@ -581,7 +572,18 @@ namespace CashCode.Net
                     }
                 }
 
+                _holdBill = hold;
                 _ReturnBill = cancel;
+            }
+        }
+
+        public event BillExceptionHandler BillException;
+
+        private void OnBillException(BillExceptionEventArgs e)
+        {
+            if (BillException != null)
+            {
+                BillException(this, new BillExceptionEventArgs(e.Message));
             }
         }
 
@@ -592,19 +594,111 @@ namespace CashCode.Net
         // Получение данных с ком-порта
         private void _ComPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            // Заснем на 100 мс, дабы дать программе получить все данные с ком-порта
-            Thread.Sleep(100);
-            this._ReceivedBytes.Clear();
-
-            // Читаем байты
-            while (_ComPort.BytesToRead > 0)
+            lock (_dataSyncRoot)
             {
-                this._ReceivedBytes.Add((byte)_ComPort.ReadByte());
+                // Читаем байты
+                while (_ComPort.BytesToRead > 0)
+                {
+                    this._ReceivedBytes.Add((byte)_ComPort.ReadByte());
+                }
+
+                CheckPacket();
+            }
+        }
+
+        private void CheckPacket()
+        {
+            var start = _ReceivedBytes.IndexOf(0x2);
+            if (start >= 0)
+            {
+                var lng = start + 2;
+                if (_ReceivedBytes.Count < lng + 1)
+                    return;
+
+                int length = _ReceivedBytes[lng];
+                if (length == 0)
+                {
+                    var lngHigh = lng + 2;
+                    var lngLow = lng + 3;
+
+                    /// исправить если требуется суб команда
+
+                    length = lngHigh;
+                    length = length << 8;
+                    length = length | lngLow;
+                }
+
+                if (_ReceivedBytes.Count < start + length)
+                    return;
+
+                _packet = _ReceivedBytes.Skip(start).Take(length).ToArray();
+                _ReceivedBytes.Clear();
+
+                // Снимаем блокировку
+                this._SynchCom.Set();
+            }
+        }
+
+        public void AcceptBill()
+        {
+            List<byte> ByteResult = null;
+
+            // Если ком-порт не открыт
+            if (!this._IsConnected)
+            {
+                this._LastError = 100020;
+                throw new System.IO.IOException(this._ErrorList.Errors[this._LastError]);
             }
 
-            // Снимаем блокировку
-            this._SynchCom.Set();
+            try
+            {
+                if (!_IsListening)
+                {
+                    throw new InvalidOperationException(CashCode.Net.Properties.Resource.EnableBillValidator_ErrorInTheMethodOfEnablingTheReceptionOfBanknotesYouMustCallTheStartListeningMethod);
+                }
+                lock (_Locker)
+                {
+                    ByteResult = this.SendCommand(BillValidatorCommands.STACK).ToList();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(CashCode.Net.Properties.Resource.AcceptBill_ErrorAcceptingBill, ex);
+            }
+            _holdBill = false;
         }
+
+        public void RejectBill()
+        {
+            List<byte> ByteResult = null;
+
+            // Если ком-порт не открыт
+            if (!this._IsConnected)
+            {
+                this._LastError = 100020;
+                throw new System.IO.IOException(this._ErrorList.Errors[this._LastError]);
+            }
+
+            try
+            {
+                if (!_IsListening)
+                {
+                    throw new InvalidOperationException(CashCode.Net.Properties.Resource.EnableBillValidator_ErrorInTheMethodOfEnablingTheReceptionOfBanknotesYouMustCallTheStartListeningMethod);
+                }
+                lock (_Locker)
+                {
+                    ByteResult = this.SendCommand(BillValidatorCommands.RETURN).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(CashCode.Net.Properties.Resource.RejectBill_ErrorReturnBill, ex);
+            }
+            _holdBill = false;
+            this._ReturnBill = false;
+        }
+        
+
 
         // Таймер прослушки купюроприемника
         private void _Listener_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -649,10 +743,22 @@ namespace CashCode.Net
                             this.SendCommand(BillValidatorCommands.ACK);
 
                             // Событие, что купюра в процессе отправки в стек
-                            OnBillStacking(new BillStackedEventArgs(CashCodeTable(ByteResult[4])));
+                            if (CashCodeTable.ContainsKey(ByteResult[4]))
+                            {
+                                OnBillStacking(new BillStackedEventArgs(CashCodeTable[ByteResult[4]]));
+                            }
+                            else
+                            {
+                                OnBillStacking(new BillStackedEventArgs(0) { Cancel = true});
+                                OnBillReceived(new BillReceivedEventArgs(BillRecievedStatus.Rejected, 0, String.Format(CashCode.Net.Properties.Resource._Listener_Elapsed_Code0NotFoundInBillTable, ByteResult[4])));
+                            }
 
+                            if (_holdBill)
+                            {
+
+                            }
                             // Если программа отвечает возвратом, то на возврат
-                            if (this._ReturnBill)
+                            else if (this._ReturnBill)
                             {
                                 // RETURN
                                 // Если программа отказывает принимать купюру, отправим RETURN
@@ -680,8 +786,7 @@ namespace CashCode.Net
                         {
                             // Подтветждаем
                             this.SendCommand(BillValidatorCommands.ACK);
-
-                            OnBillReceived(new BillReceivedEventArgs(BillRecievedStatus.Accepted, CashCodeTable(ByteResult[4]), ""));
+                            OnBillReceived(new BillReceivedEventArgs(BillRecievedStatus.Accepted, CashCodeTable[ByteResult[4]], ""));
                         }
 
                         // RETURNING
@@ -726,7 +831,9 @@ namespace CashCode.Net
                 }
             }
             catch
-            {}
+            {
+                OnBillException(new BillExceptionEventArgs("Связь с купюроприемником потеряна"));
+            }
             finally
             {
                 // Если таймер выключен, то запускаем
@@ -772,10 +879,22 @@ namespace CashCode.Net
     {
         public int Value { get; private set; }
 
+        public bool Hold { get; set; }
+
         public BillStackedEventArgs(int value)
         {
             this.Value = value;
             this.Cancel = false;
+        }
+    }
+
+    public class BillExceptionEventArgs : EventArgs
+    {
+        public string Message { get; set; }
+
+        public BillExceptionEventArgs(string message)
+        {
+            Message = message;
         }
     }
 }

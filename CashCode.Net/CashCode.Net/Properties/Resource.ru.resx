@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EnableBillValidator_ErrorInTheMethodOfEnablingTheReceptionOfBanknotesYouMustCallTheStartListeningMethod" xml:space="preserve">
+    <value>Ошибка метода включения приема купюр. Необходимо вызвать метод StartListening.</value>
+  </data>
+  <data name="SendCommand_TheMismatchOfTheChecksumOfTheReceivedMessageTheDeviceMayNotBeConnectedToTheCOMPortCheckYourConnectionSettings" xml:space="preserve">
+    <value>Несоответствие контрольной суммы полученного сообщения. Возможно, устройство не подключено к COM-порту. Проверьте настройки подключения.</value>
+  </data>
+  <data name="CashCodeErroList_UnknownError" xml:space="preserve">
+    <value>Неизвестная ошибка.</value>
+  </data>
+  <data name="CashCodeErroList_ErrorOpeningComPort" xml:space="preserve">
+    <value>Ошибка открытия COM-порта.</value>
+  </data>
+  <data name="CashCodeErroList_ComPortNotOpen" xml:space="preserve">
+    <value>COM-порт не открыт.</value>
+  </data>
+  <data name="CashCodeErroList_ErrorOffspringOfTheCommandToEnableTheBillValidator" xml:space="preserve">
+    <value>Ошибка отпраки команды включения купюроприемника.</value>
+  </data>
+  <data name="CashCodeErroList_ErrorOffspringOfTheCommandToEnableTheBillValidatorNoPOWERUPCommandWasReceivedFromTheBillValidator" xml:space="preserve">
+    <value>Ошибка отпраки команды включения купюроприемника. От купюроприемника не получена команда POWER UP.</value>
+  </data>
+  <data name="CashCodeErroList_ErrorOffspringOfTheCommandToEnableTheBillValidatorNoACKCommandWasReceivedFromTheBillValidator" xml:space="preserve">
+    <value>Ошибка отпраки команды включения купюроприемника. От купюроприемника не получена команда ACK.</value>
+  </data>
+  <data name="CashCodeErroList_ErrorOffspringOfTheCommandToEnableTheBillValidatorNoINITIALIZECommandWasReceivedFromTheBillValidator" xml:space="preserve">
+    <value>Ошибка отпраки команды включения купюроприемника. От купюроприемника не получена команда INITIALIZE .</value>
+  </data>
+  <data name="CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorStackerSDown" xml:space="preserve">
+    <value>Ошибка проверки статуса купюроприемника. Cтекер снят.</value>
+  </data>
+  <data name="CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorStackerIsFull" xml:space="preserve">
+    <value>Ошибка проверки статуса купюроприемника. Стекер переполнен.</value>
+  </data>
+  <data name="CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorThereSABillStuckInTheValidator" xml:space="preserve">
+    <value>Ошибка проверки статуса купюроприемника. В валидаторе застряла купюра.</value>
+  </data>
+  <data name="CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorThereSABillStuckInTheStacker" xml:space="preserve">
+    <value>Ошибка проверки статуса купюроприемника. В стекере застряла купюра.</value>
+  </data>
+  <data name="CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorFakeBill" xml:space="preserve">
+    <value>Ошибка проверки статуса купюроприемника. Фальшивая купюра.</value>
+  </data>
+  <data name="CashCodeErroList_ErrorCheckingOfStatusOfTheBillValidatorThePreviousBillHasNotYetHitTheStackAndIsInTheRecognitionMechanism" xml:space="preserve">
+    <value>Ошибка проверки статуса купюроприемника. Предыдущая купюра еще не попала в стек и находится в механизме распознавания.</value>
+  </data>
+  <data name="CashCodeErroList_BillValidatorErrorStackerMechanismError" xml:space="preserve">
+    <value>Сбой при работе механизма стекера.</value>
+  </data>
+  <data name="CashCodeErroList_BillValidatorErrorStackerTransmissionSpeedError" xml:space="preserve">
+    <value>Сбой в скорости передачи купюры в стекер.</value>
+  </data>
+  <data name="CashCodeErroList_BillValidatorErrorSendBillsToStackerError" xml:space="preserve">
+    <value>Сбой передачи купюры в стекер.</value>
+  </data>
+  <data name="CashCodeErroList_BillValidatorErrorAlignmentBillsMechanismError" xml:space="preserve">
+    <value>Сбой механизма выравнивания купюр.</value>
+  </data>
+  <data name="CashCodeErroList_BillValidatorErrorStackerError" xml:space="preserve">
+    <value>Сбой в работе стекера.</value>
+  </data>
+  <data name="CashCodeErroList_BillValidatorErrorOpticalSensorsError" xml:space="preserve">
+    <value>Сбой в работе оптических сенсоров.</value>
+  </data>
+  <data name="CashCodeErroList_BillValidatorErrorInductanceChannelError" xml:space="preserve">
+    <value>Сбой работы канала индуктивности.</value>
+  </data>
+  <data name="CashCodeErroList_BillValidatorErrorStackerOccupancyCheckChannelError" xml:space="preserve">
+    <value>Сбой в работе канала проверки заполняемости стекера.</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToInsertion" xml:space="preserve">
+    <value>Ошибка приема купюры. Купюра изъята.(Rejecting due to Insertion)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToMagnetic" xml:space="preserve">
+    <value>Ошибка приема купюры. Ошибка магнитного сенсора.(Rejecting due to Magnetic)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToRemainedBillInHead" xml:space="preserve">
+    <value>Ошибка приема купюры. Другая купюра находится в обработке.(Rejecting due to Remained bill in head)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToMultiplying" xml:space="preserve">
+    <value>Ошибка приема купюры. Ошибка множителя.(Rejecting due to Multiplying)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToConveying" xml:space="preserve">
+    <value>Ошибка приема купюры. Ошибка передачи.(Rejecting due to Conveying)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToIdentification1" xml:space="preserve">
+    <value>Ошибка приема купюры. Купюра не распознана.(Rejecting due to Identification!)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToVerification" xml:space="preserve">
+    <value>Ошибка приема купюры. Ошибка верификации.(Rejecting due to Verification)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToOptic" xml:space="preserve">
+    <value>Ошибка приема купюры. Ошибка оптического сенсора.(Rejecting due to Optic)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToInhibit" xml:space="preserve">
+    <value>Ошибка приема купюры. Прием запрещен.(Rejecting due to Inhibit)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToCapacity" xml:space="preserve">
+    <value>Ошибка приема купюры. Ошибка вместимости.(Rejecting due to Capacity)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToOperation" xml:space="preserve">
+    <value>Ошибка приема купюры. Купюра не принята.(Rejecting due to Operation)</value>
+  </data>
+  <data name="CashCodeErroList_RejectingDueToLength" xml:space="preserve">
+    <value>Ошибка приема купюры. Ошибка размера купюры.(Rejecting due to Length)</value>
+  </data>
+  <data name="_Listener_Elapsed_Code0NotFoundInBillTable" xml:space="preserve">
+    <value>Код {0} не найден в таблице купюр</value>
+  </data>
+  <data name="AcceptBill_ErrorAcceptingBill" xml:space="preserve">
+    <value>Ошибка приема купюры</value>
+  </data>
+  <data name="RejectBill_ErrorReturnBill" xml:space="preserve">
+    <value>Ошибка отмены приема купюр</value>
+  </data>
+</root>
